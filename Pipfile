@@ -1,0 +1,35 @@
+[[source]]            
+url = "https://pypi.org/simple"
+verify_ssl = true     
+name = "pypi"
+
+[dev-packages]
+black = "*"
+isort = "*"
+pylint = "*"
+mypy = "*"
+types-requests = "*"
+
+[packages]
+django = "*"
+graphene-django = "*"
+django-stubs = {extras = ["compatible-mypy"], version = "*"}
+requests = "*"
+install = "*"
+sphinx = "*"
+sphinx-markdown-builder = "*"
+djangorestframework = "*"
+
+[requires]
+python_version = "3.10"
+
+[scripts]
+format-black = "black ./graphene_django_extensions"
+format-isort = "isort ./graphene_django_extensions"
+lint-black = "black ./graphene_django_extensions --check --diff"
+lint-isort = "isort ./graphene_django_extensions --check --diff --profile black"
+lint-pylint = "pylint ./graphene_django_extensions"
+type-check = "mypy ./graphene_django_extensions"
+apidoc = "sphinx-apidoc ./graphene_django_extensions -o ./docs/source"
+sphinx = "sphinx-build -c ./docs/source -b markdown ./docs/source ./docs/build"
+# PIPENV_DOTENV_LOCATION=$(pwd)/.env.prod
