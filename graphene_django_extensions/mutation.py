@@ -2,7 +2,6 @@ from collections import OrderedDict
 from enum import Enum
 
 import graphene
-import ipdb
 from django.shortcuts import get_object_or_404
 from graphene.relay.mutation import ClientIDMutation
 from graphene.types import Field, InputField
@@ -93,9 +92,9 @@ class RelaySerializerMutation(ClientIDMutation):
                 node_type, description="The created/updated instance."
             )
             _meta.fields = yank_fields_from_attrs(corrected_output_fields, _as=Field)
-            if _meta.model_class.__name__ is "Image":
-                print("META FIELDS", _meta.fields)
-                # ipdb.set_trace()
+            # if _meta.model_class.__name__ is "Image":
+            #    print("META FIELDS", _meta.fields)
+            #    # ipdb.set_trace()
         else:
             _meta.fields = yank_fields_from_attrs(output_fields, _as=Field)
 

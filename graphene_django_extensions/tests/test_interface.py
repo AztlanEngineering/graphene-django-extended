@@ -33,14 +33,14 @@ class EmployeeModel(models.Model):
     department = models.CharField(max_length=30)
 
     class Meta:
-        app_label = 'test'
+        app_label = "test"
 
 
 class ManagerModel(EmployeeModel):
     managed_department = models.CharField(max_length=30)
 
     class Meta:
-        app_label = 'test'
+        app_label = "test"
 
 
 # Tests for DjangoInterface
@@ -49,7 +49,7 @@ def test_django_interface_instantiation():
     class PersonInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            fields = '__all__'
+            fields = "__all__"
 
     assert issubclass(PersonInterface, DjangoInterface)
 
@@ -59,10 +59,10 @@ def test_django_interface_field_mapping():
     class EmployeeInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            fields = '__all__'
+            fields = "__all__"
 
-    assert 'name' in EmployeeInterface._meta.fields
-    assert 'department' in EmployeeInterface._meta.fields
+    assert "name" in EmployeeInterface._meta.fields
+    assert "department" in EmployeeInterface._meta.fields
 
 
 @with_local_registry
@@ -70,7 +70,7 @@ def test_django_interface_meta_configuration():
     class EmployeeInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            fields = '__all__'
+            fields = "__all__"
 
     assert EmployeeInterface._meta.model == EmployeeModel
 
@@ -80,7 +80,7 @@ def test_django_interface_polymorphic_type_resolution():
     class EmployeeInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            fields = '__all__'
+            fields = "__all__"
 
         @classmethod
         def resolve_type(cls, instance, info):
@@ -94,11 +94,11 @@ def test_django_interface_graphql_query_integration():
     class EmployeeInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            fields = '__all__'
+            fields = "__all__"
 
         @classmethod
         def resolve_type(cls, instance, info):
-            print(instance, '222')
+            print(instance, "222")
             return (
                 EmployeeType  # ManagerModel if isinstance(instance, ManagerModel) else
             )
@@ -112,15 +112,15 @@ def test_django_interface_graphql_query_integration():
         employees = List(EmployeeInterface)
 
         def resolve_employees(root, info):
-            return [EmployeeModel(name='Alice', department='Sales')]
+            return [EmployeeModel(name="Alice", department="Sales")]
 
     schema = Schema(query=Query, types=[EmployeeType])
-    query = ''' query { employees { name department } } '''
+    query = """ query { employees { name department } } """
     result = schema.execute(query)
-    print(result, 'result')
+    print(result, "result")
     assert not result.errors
-    assert result.data['employees'][0]['name'] == 'Alice'
-    assert result.data['employees'][0]['department'] == 'Sales'
+    assert result.data["employees"][0]["name"] == "Alice"
+    assert result.data["employees"][0]["department"] == "Sales"
 
 
 # We should test this in a fully fledged schema with multiple cases. See
@@ -147,10 +147,10 @@ def test_django_interface_custom_name_propagation():
     class CustomEmployeeInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            name = 'CustomEmployee'
-            fields = '__all__'
+            name = "CustomEmployee"
+            fields = "__all__"
 
-    assert CustomEmployeeInterface._meta.name == 'CustomEmployee'
+    assert CustomEmployeeInterface._meta.name == "CustomEmployee"
 
 
 @with_local_registry
@@ -158,10 +158,10 @@ def test_django_interface_excluding_fields():
     class EmployeeInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            exclude = ['department']
+            exclude = ["department"]
 
-    assert 'name' in EmployeeInterface._meta.fields
-    assert 'department' not in EmployeeInterface._meta.fields
+    assert "name" in EmployeeInterface._meta.fields
+    assert "department" not in EmployeeInterface._meta.fields
 
 
 @with_local_registry
@@ -169,10 +169,10 @@ def test_django_interface_specifying_only_certain_fields():
     class EmployeeInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            fields = ['name']
+            fields = ["name"]
 
-    assert 'name' in EmployeeInterface._meta.fields
-    assert 'department' not in EmployeeInterface._meta.fields
+    assert "name" in EmployeeInterface._meta.fields
+    assert "department" not in EmployeeInterface._meta.fields
 
 
 @with_local_registry
@@ -180,14 +180,14 @@ def test_django_interface_inheritance_and_extension():
     class BaseInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            fields = ['name']
+            fields = ["name"]
 
     class ExtendedInterface(BaseInterface):
         class Meta:
             model = ManagerModel
-            fields = ['managed_department']
+            fields = ["managed_department"]
 
-    assert 'managed_department' in ExtendedInterface._meta.fields
+    assert "managed_department" in ExtendedInterface._meta.fields
 
 
 @with_local_registry
@@ -195,10 +195,10 @@ def test_django_interface_custom_meta_class_functionality():
     class CustomMetaInterface(DjangoInterface):
         class Meta:
             model = EmployeeModel
-            name = 'CustomInterface'
-            fields = '__all__'
+            name = "CustomInterface"
+            fields = "__all__"
 
-    assert CustomMetaInterface._meta.name == 'CustomInterface'
+    assert CustomMetaInterface._meta.name == "CustomInterface"
 
 
 @with_local_registry
@@ -208,14 +208,14 @@ def test_django_interface_type_checking_for_fields_and_exclude():
         class InvalidFieldsInterface(DjangoInterface):
             class Meta:
                 model = EmployeeModel
-                fields = 'name'
+                fields = "name"
 
     with pytest.raises(TypeError):
 
         class InvalidExcludeInterface(DjangoInterface):
             class Meta:
                 model = EmployeeModel
-                exclude = 'department'
+                exclude = "department"
 
 
 @with_local_registry
@@ -233,7 +233,7 @@ def test_django_interface_custom_connections():
         class Meta:
             model = EmployeeModel
             connection_class = CustomConnection
-            fields = '__all__'
+            fields = "__all__"
 
     print(EmployeeInterface._meta.connection, EmployeeInterface._meta)
-    assert 'test' in EmployeeInterface._meta.connection._meta.fields
+    assert "test" in EmployeeInterface._meta.connection._meta.fields

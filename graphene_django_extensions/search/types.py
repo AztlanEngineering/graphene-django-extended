@@ -5,7 +5,6 @@ from graphene import ObjectType, ResolveInfo
 from graphene.relay.node import Node, NodeField
 from graphene.types.objecttype import ObjectTypeOptions
 from graphene_django.types import DjangoObjectType
-
 from graphene_django_polymorphic import (
     DjangoInterface,
     DjangoInterfaceConnectionField,
@@ -13,6 +12,7 @@ from graphene_django_polymorphic import (
 )
 
 from .fields import SearchNodeField
+
 
 class SearchDjangoObjectTypeOptions(ObjectTypeOptions):
     search_fields = []
@@ -34,7 +34,7 @@ class SearchMixin:
         if not hasattr(info.context, "search"):
             return super().get_queryset(queryset, info)
 
-        search_query = info.context.get('search')
+        search_query = info.context.get("search")
 
         if search_query and cls._meta.search_fields:
             q_objects = Q()
@@ -66,6 +66,7 @@ class SearchDjangoObjectType(SearchMixin, DjangoObjectType):
     It is crucial that this is used with SearchNode, as it is the only way to resolve the node by kwargs.
     object = SearchNode.Field(SearchNodeDjangoObjectType)
     """
+
     @classmethod
     def __init_subclass_with_meta__(
         cls,

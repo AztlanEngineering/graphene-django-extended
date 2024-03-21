@@ -20,14 +20,12 @@ from graphene_django.filter.utils import (
 )
 from graphene_django.types import DjangoObjectType
 
-from .types import DjangoInterface
-
 
 ## THis is a hardcoded rewrite of the class to allow for proper interface support
 class DjangoInterfaceConnectionField(DjangoConnectionField):
     @property
     def type(self):
-        from .types import DjangoInterface
+        from .interface import DjangoInterface
 
         _type = super(graphene.relay.ConnectionField, self).type
         non_null = False

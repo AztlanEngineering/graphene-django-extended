@@ -40,11 +40,11 @@ class PermissionedSerializerMutation(SerializerMutation):
         Override mutate_and_get_payload to perform permission checks.
         """
         # Extract permissions from Meta class
-        permissions = getattr(cls.Meta, 'permissions', [])
+        permissions = getattr(cls.Meta, "permissions", [])
 
         # Check if the user has the required permissions
         if not cls.has_permission(info.context.user, permissions):
-            raise PermissionDenied('You do not have permission to perform this action.')
+            raise PermissionDenied("You do not have permission to perform this action.")
 
         # Proceed with the original mutation if permissions are satisfied
         return super().mutate_and_get_payload(root, info, **input)
@@ -62,8 +62,8 @@ class MutationPermissionMixin(BasePermissionMixin):
 
     @classmethod
     def mutate_and_get_payload(
-        cls, root: 'Mutation', info: graphene.ResolveInfo, **input
-    ) -> 'Mutation':
+        cls, root: "Mutation", info: graphene.ResolveInfo, **input
+    ) -> "Mutation":
         user = info.context.user
         if cls.is_user_authorized(user):
             return super().mutate_and_get_payload(root, info, **input)
@@ -83,15 +83,15 @@ class ValidateWithErrorExtensionMixin:
 
     @classmethod
     def mutate_and_get_payload(
-        cls, root: 'Mutation', info: graphene.ResolveInfo, **input
-    ) -> 'Mutation':
+        cls, root: "Mutation", info: graphene.ResolveInfo, **input
+    ) -> "Mutation":
         kwargs = cls.get_serializer_kwargs(root, info, **input)
         serializer = cls._meta.serializer_class(**kwargs)
         if serializer is None or serializer.is_valid():
             return cls.perform_mutate(serializer, info)
         else:
             raise ObscureGraphQLError(
-                extensions=serializer.errors, message='Validation Error'
+                extensions=serializer.errors, message="Validation Error"
             )  # Use ObscureGraphQLError
 
 
@@ -109,27 +109,27 @@ class MutationDeleteMixin(BasePermissionMixin):
 
     @classmethod
     def Field(cls, *args, **kwargs) -> graphene.Field:
-        cls._meta.arguments['input']._meta.fields.update(
-            {'id': graphene.InputField(graphene.UUID, required=True)}
+        cls._meta.arguments["input"]._meta.fields.update(
+            {"id": graphene.InputField(graphene.UUID, required=True)}
         )
         return super().Field(*args, **kwargs)
 
     @classmethod
     def mutate_and_get_payload(
-        cls, root: 'Mutation', info: graphene.ResolveInfo, **input
-    ) -> 'Mutation':
-        id = input['id']
+        cls, root: "Mutation", info: graphene.ResolveInfo, **input
+    ) -> "Mutation":
+        id = input["id"]
         try:
-            instance = cls._kwargs['model'].objects.get(id=id)
-        except cls._kwargs['model'].DoesNotExist:
+            instance = cls._kwargs["model"].objects.get(id=id)
+        except cls._kwargs["model"].DoesNotExist:
             raise ObscureGraphQLError(
-                'Object not found'
+                "Object not found"
             )  # Use ObscureGraphQLError for specific error
         deleted = instance.delete()
         if deleted[0] == 1:
             return cls(**input)
         raise ObscureGraphQLError(
-            'Deletion failed'
+            "Deletion failed"
         )  # Use ObscureGraphQLError for specific error
 
     @classmethod
@@ -158,8 +158,8 @@ class ResolveEnumToValueMixin:
 
     @classmethod
     def mutate_and_get_payload(
-        cls, root: 'Mutation', info: graphene.ResolveInfo, **inputs
-    ) -> 'Mutation':
+        cls, root: "Mutation", info: graphene.ResolveInfo, **inputs
+    ) -> "Mutation":
         enum_type_inputs = {
             key: enum_input.value
             for (key, enum_input) in inputs.items()

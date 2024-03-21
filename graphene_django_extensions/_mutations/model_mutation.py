@@ -1,12 +1,11 @@
 from typing import Any, Dict, Type
 
 import graphene
+from activitystreams.models import Image
 from django.db import models
 from graphene_django.rest_framework.mutation import SerializerMutation
-from rest_framework import serializers
-
-from activitystreams.models import Image
 from graphene_django_polymorphic import RelaySerializerMutation
+from rest_framework import serializers
 
 from .delete_mutation import DeleteMutation
 from .global_id_serializer_mutation import GlobalIDSerializerMutation
@@ -17,8 +16,8 @@ SerializerMutation = RelaySerializerMutation
 
 class ModelMutationOptions(graphene.types.mutation.MutationOptions):
     model_class = None
-    create_fields = '__all__'
-    update_fields = '__all__'
+    create_fields = "__all__"
+    update_fields = "__all__"
     delete_fields = None
     registry = None
     additional_options = {}
@@ -39,8 +38,8 @@ def generate_serializer_class(
         A dynamically created serializer class.
     """
     class_name = f"{operation.capitalize()}{model_class.__name__}Serializer"
-    Meta = type('Meta', (), {'model': model_class, 'fields': '__all__'})
-    return type(class_name, (serializers.ModelSerializer,), {'Meta': Meta})
+    Meta = type("Meta", (), {"model": model_class, "fields": "__all__"})
+    return type(class_name, (serializers.ModelSerializer,), {"Meta": Meta})
 
 
 def generate_mutation_class(
@@ -65,23 +64,23 @@ def generate_mutation_class(
         serializer_class = generate_serializer_class(model_class, operation)
 
     meta_attrs = {
-        'model_class': model_class,
-        'fields': '__all__',
-        'convert_choices_to_enum': [],
+        "model_class": model_class,
+        "fields": "__all__",
+        "convert_choices_to_enum": [],
         **additional_options,
     }
     if operation == "update":
-        meta_attrs['lookup_field'] = 'id'
+        meta_attrs["lookup_field"] = "id"
     if operation in ["create", "update"]:
-        meta_attrs['serializer_class'] = serializer_class
-        meta_attrs['registry'] = registry
-    Meta = type('Meta', (), meta_attrs)
+        meta_attrs["serializer_class"] = serializer_class
+        meta_attrs["registry"] = registry
+    Meta = type("Meta", (), meta_attrs)
 
     base_class = SerializerMutation if serializer_class else DeleteMutation
 
-    mutation_attrs = {'Meta': Meta}
+    mutation_attrs = {"Meta": Meta}
     if serializer_class:
-        mutation_attrs['serializer_class'] = serializer_class
+        mutation_attrs["serializer_class"] = serializer_class
 
     mutation_class_name = f"{operation.capitalize()}{model_class.__name__}Mutation"
     return type(mutation_class_name, (base_class,), mutation_attrs)
@@ -111,7 +110,7 @@ class ModelMutation(graphene.ObjectType):
             # class and not in the subclass
             super().__init_subclass_with_meta__(_meta=_meta, **options)
             return
-        if not hasattr(cls, '_meta') or not hasattr(cls._meta, 'model_class'):
+        if not hasattr(cls, "_meta") or not hasattr(cls._meta, "model_class"):
             assert model_class is not None and issubclass(
                 model_class, models.Model
             ), "model_class is required for ModelMutation and must be a Django model."

@@ -48,7 +48,7 @@ class DeleteMutation(
         # Perform the deletion
         success = False
         try:
-            instance = cls._meta.model_class.objects.get(pk=input.get('id'))
+            instance = cls._meta.model_class.objects.get(pk=input.get("id"))
             instance.delete()
             success = True
         except cls._meta.model_class.DoesNotExist:

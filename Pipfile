@@ -9,11 +9,12 @@ isort = "*"
 pylint = "*"
 mypy = "*"
 types-requests = "*"
+django-stubs = {extras = ["compatible-mypy"], version = "*"}
+djangorestframework-stubs = {extras = ["compatible-mypy"], version = "*"}
 
 [packages]
 django = "*"
 graphene-django = "*"
-django-stubs = {extras = ["compatible-mypy"], version = "*"}
 requests = "*"
 install = "*"
 sphinx = "*"

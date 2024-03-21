@@ -2,7 +2,6 @@ import graphene
 from django.db.models import Q
 from graphene_django.fields import DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
-
 from graphene_django_polymorphic import DjangoInterfaceConnectionField
 
 
@@ -14,9 +13,9 @@ class SearchDjangoConnectionFieldMixin:
         """
         # Check if the type has defined search_fields in its Meta
         if True:  # hasattr(type_, '_meta') and hasattr(type_._meta, 'search_fields'):
-            if 'args' not in kwargs:
-                kwargs['args'] = {}
-            kwargs['args']['search'] = graphene.String(description="Search by fields")
+            if "args" not in kwargs:
+                kwargs["args"] = {}
+            kwargs["args"]["search"] = graphene.String(description="Search by fields")
 
         super().__init__(type_, *args, **kwargs)
 
@@ -41,11 +40,11 @@ class SearchDjangoConnectionFieldMixin:
         node_type = connection._meta.node
         # Apply search filter if 'search' argument is provided and 'search_fields' are defined
         if (
-            'search' in args
-            and hasattr(node_type, '_meta')
-            and hasattr(node_type._meta, 'search_fields')
+            "search" in args
+            and hasattr(node_type, "_meta")
+            and hasattr(node_type._meta, "search_fields")
         ):
-            search_value = args['search']
+            search_value = args["search"]
             search_fields = node_type._meta.search_fields
             queryset = cls.merge_querystrings(queryset, search_value, search_fields)
 
