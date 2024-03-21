@@ -2,7 +2,8 @@ import graphene
 from django.db.models import Q
 from graphene_django.fields import DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
-from graphene_django_polymorphic import DjangoInterfaceConnectionField
+
+from ..connection import DjangoInterfaceConnectionField
 
 
 class SearchDjangoConnectionFieldMixin:

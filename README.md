@@ -1,3 +1,8 @@
+CAVEATS 
+- No tests for now 
+- Stubs are missing for graphene and graphene-django
+- Unstable API - needs more usage
+
 TODO
 - Make sure Sphinx generates docs from all files
 - generate html instead of md ???

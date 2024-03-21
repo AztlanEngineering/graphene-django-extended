@@ -1,6 +1,6 @@
 import graphene
 
-from .fields import SearchNodeField
+from .field import SearchNodeField
 
 
 class SearchNode(graphene.relay.Node):

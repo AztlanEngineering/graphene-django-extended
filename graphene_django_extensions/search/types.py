@@ -5,13 +5,9 @@ from graphene import ObjectType, ResolveInfo
 from graphene.relay.node import Node, NodeField
 from graphene.types.objecttype import ObjectTypeOptions
 from graphene_django.types import DjangoObjectType
-from graphene_django_polymorphic import (
-    DjangoInterface,
-    DjangoInterfaceConnectionField,
-    DjangoInterfaceOptions,
-)
 
-from .fields import SearchNodeField
+from ..interface import DjangoInterface, DjangoInterfaceOptions
+from .field import SearchNodeField
 
 
 class SearchDjangoObjectTypeOptions(ObjectTypeOptions):
