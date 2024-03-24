@@ -24,7 +24,7 @@ def convert_field_to_list_or_connection(field, registry=None):
         # If there is a connection, we should transform the field
         # into a DjangoConnectionField
         if _type._meta.connection:
-            from graphene_django_polymorphic import (
+            from .connection import (
                 DjangoInterfaceConnectionField,
                 DjangoInterfaceFilterConnectionField,
             )
