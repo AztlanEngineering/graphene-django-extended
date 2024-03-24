@@ -34,7 +34,7 @@ class DjangoInterfaceConnectionField(DjangoConnectionField):
             non_null = True
 
         assert issubclass(_type, (DjangoObjectType, DjangoInterface)), (
-            "DjangoConnectionField only accepts DjangoObjectType or "
+            "DjangoInterfaceConnectionField only accepts DjangoObjectType or "
             "DjangoInterface types"
         )
         assert _type._meta.connection, "The type {} doesn't have a connection".format(

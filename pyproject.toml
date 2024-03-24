@@ -1,6 +1,6 @@
 [project]
-name = "graphene-django-extensions"
-version = "0.0.2"
+name = "graphene-django-extended"
+version = "1.0.0"
 #authors = [
 #  { name="Example Author", email="author@example.com" },
 #]
@@ -14,8 +14,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/AztlanEngineering/django-graphql-jwt-oauth2"
-Issues = "https://github.com/AztlanEngineering/django-graphql-jwt-oauth2/issues"
+Homepage = "https://github.com/AztlanEngineering/graphene-django-extended"
+Issues = "https://github.com/AztlanEngineering/graphene-django-extended/issues"
 
 [tool.black]
 line-length = 88
@@ -55,14 +55,14 @@ disable= [
 [tool.hatch]
 
 [tool.hatch.build.targets.sdist]
-packages = ["graphql_jwt_oauth2"]
+packages = ["graphene_django_extended"]
 exclude = [
   "/.github",
   "/docs",
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["graphql_jwt_oauth2"]
+packages = ["graphene_django_extended"]
 exclude = [
   "/.github",
   "/docs",

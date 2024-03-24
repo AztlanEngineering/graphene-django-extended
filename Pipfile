@@ -11,6 +11,7 @@ mypy = "*"
 types-requests = "*"
 django-stubs = {extras = ["compatible-mypy"], version = "*"}
 djangorestframework-stubs = {extras = ["compatible-mypy"], version = "*"}
+hatch = "*"
 
 [packages]
 django = "*"
@@ -25,12 +26,12 @@ djangorestframework = "*"
 python_version = "3.10"
 
 [scripts]
-format-black = "black ./graphene_django_extensions"
-format-isort = "isort ./graphene_django_extensions"
-lint-black = "black ./graphene_django_extensions --check --diff"
-lint-isort = "isort ./graphene_django_extensions --check --diff --profile black"
-lint-pylint = "pylint ./graphene_django_extensions"
-type-check = "mypy ./graphene_django_extensions"
-apidoc = "sphinx-apidoc ./graphene_django_extensions -o ./docs/source"
+format-black = "black ./graphene_django_extended"
+format-isort = "isort ./graphene_django_extended"
+lint-black = "black ./graphene_django_extended --check --diff"
+lint-isort = "isort ./graphene_django_extended --check --diff --profile black"
+lint-pylint = "pylint ./graphene_django_extended"
+type-check = "mypy ./graphene_django_extended"
+apidoc = "sphinx-apidoc ./graphene_django_extended -o ./docs/source"
 sphinx = "sphinx-build -c ./docs/source -b markdown ./docs/source ./docs/build"
 # PIPENV_DOTENV_LOCATION=$(pwd)/.env.prod

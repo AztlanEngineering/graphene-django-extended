@@ -1,3 +1,4 @@
+.env
 generated
 dist
 .mypy_cache
