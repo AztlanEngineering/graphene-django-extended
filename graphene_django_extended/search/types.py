@@ -1,4 +1,5 @@
 import graphene
+import ipdb
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from graphene import ObjectType, ResolveInfo
@@ -71,6 +72,7 @@ class SearchDjangoObjectType(SearchMixin, DjangoObjectType):
         **options,
     ):
         if not _meta:
+            # ipdb.set_trace()
             _meta = SearchDjangoObjectTypeOptions(cls)
         _meta.search_fields = search_fields or []
         super(SearchDjangoObjectType, cls).__init_subclass_with_meta__(

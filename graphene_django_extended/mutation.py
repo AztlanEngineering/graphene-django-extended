@@ -92,6 +92,7 @@ class RelaySerializerMutation(ClientIDMutation):
                 node_type, description="The created/updated instance."
             )
             _meta.fields = yank_fields_from_attrs(corrected_output_fields, _as=Field)
+            # ipdb.set_trace()
             # if _meta.model_class.__name__ is "Image":
             #    print("META FIELDS", _meta.fields)
             #    # ipdb.set_trace()
@@ -164,12 +165,8 @@ class RelaySerializerMutation(ClientIDMutation):
             node_type = cls._meta.node_type
             kwargs["id"] = to_global_id(node_type.__name__, obj.pk)
             # kwargs["pk"] = to_global_id(node_type.__name__, obj.pk)
-            instance = node_type(**kwargs)
-            # ipdb.set_trace()
-
-            # Mysterious line, without it it breaks (NodeType has no attribute pk. Needs more rev-eng)
-            instance.pk = obj.pk
-
+            # instance = node_type(**kwargs)
+            instance = obj
             return cls(errors=None, instance=instance)
 
         return cls(errors=None, **kwargs)
