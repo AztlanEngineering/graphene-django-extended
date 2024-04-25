@@ -1,6 +1,7 @@
 import graphene
 from django.db.models import Q
-from graphene_django.fields import DjangoConnectionField
+
+# from graphene_django.fields import DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
 
 from ..connection import DjangoInterfaceConnectionField
@@ -34,8 +35,8 @@ class SearchDjangoConnectionFieldMixin:
         return queryset
 
     @classmethod
-    def resolve_queryset(cls, connection, iterable, info, args):
-        queryset = super().resolve_queryset(connection, iterable, info, args)
+    def resolve_queryset(cls, connection, iterable, info, args, **kwargs):
+        queryset = super().resolve_queryset(connection, iterable, info, args, **kwargs)
         print("CN", info, info.context, args, cls)
 
         node_type = connection._meta.node
@@ -53,7 +54,7 @@ class SearchDjangoConnectionFieldMixin:
 
 
 class SearchDjangoConnectionField(
-    SearchDjangoConnectionFieldMixin, DjangoConnectionField
+    SearchDjangoConnectionFieldMixin, DjangoFilterConnectionField
 ):
     """
     Extension of DjangoFilterConnectionField to include search functionality
