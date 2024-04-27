@@ -37,7 +37,6 @@ class SearchDjangoConnectionFieldMixin:
     @classmethod
     def resolve_queryset(cls, connection, iterable, info, args, **kwargs):
         queryset = super().resolve_queryset(connection, iterable, info, args, **kwargs)
-        print("CN", info, info.context, args, cls)
 
         node_type = connection._meta.node
         # Apply search filter if 'search' argument is provided and 'search_fields' are defined
