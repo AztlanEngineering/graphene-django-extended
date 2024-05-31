@@ -130,8 +130,6 @@ class RelaySerializerMutation(ClientIDMutation):
                     )
                 )
 
-            logger.debug(f"DATA {data}")
-
             return {
                 "instance": instance,
                 "data": input,
