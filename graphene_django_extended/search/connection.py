@@ -4,7 +4,7 @@ from django.db.models import Q
 # from graphene_django.fields import DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
 
-from ..connection import DjangoInterfaceConnectionField
+from ..connection import CountConnectionFieldMixin, DjangoInterfaceConnectionField
 
 
 class SearchDjangoConnectionFieldMixin:
@@ -53,7 +53,8 @@ class SearchDjangoConnectionFieldMixin:
 
 
 class SearchDjangoConnectionField(
-    SearchDjangoConnectionFieldMixin, DjangoFilterConnectionField
+    SearchDjangoConnectionFieldMixin,
+    DjangoFilterConnectionField,
 ):
     """
     Extension of DjangoFilterConnectionField to include search functionality

@@ -1,3 +1,4 @@
+import logging
 from collections import OrderedDict
 from enum import Enum
 
@@ -15,6 +16,8 @@ from graphene_django.rest_framework.serializer_converter import convert_serializ
 from graphene_django.types import ErrorType
 from graphql_relay import to_global_id
 from rest_framework import serializers
+
+logger = logging.getLogger(__name__)
 
 
 class RelaySerializerMutationOptions(SerializerMutationOptions):
@@ -126,6 +129,8 @@ class RelaySerializerMutation(ClientIDMutation):
                         lookup_field
                     )
                 )
+
+            logger.debug(f"DATA {data}")
 
             return {
                 "instance": instance,

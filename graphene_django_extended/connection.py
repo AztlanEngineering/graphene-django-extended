@@ -10,6 +10,9 @@ from collections import OrderedDict
 from functools import partial
 
 import graphene
+import ipdb
+from django.db.models.query import QuerySet
+from graphene.relay.connection import Connection, ConnectionOptions
 from graphene.types.argument import to_arguments
 from graphene.utils.str_converters import to_snake_case
 from graphene_django.fields import DjangoConnectionField
@@ -19,6 +22,42 @@ from graphene_django.filter.utils import (
     get_filterset_class,
 )
 from graphene_django.types import DjangoObjectType
+
+
+class CountConnection(Connection):
+    @classmethod
+    def __init_subclass_with_meta__(cls, _meta=None, **options):
+        if not _meta:
+            _meta = ConnectionOptions(cls)
+
+        if not _meta.fields:
+            _meta.fields = {}
+
+        if "count" not in _meta.fields:
+            _meta.fields["count"] = graphene.Field(
+                graphene.Int,
+                name="count",
+                required=True,
+                description="The total number of items in the connection.",
+            )
+
+        super().__init_subclass_with_meta__(_meta=_meta, **options)
+
+    class Meta:
+        abstract = True
+
+
+class CountConnectionFieldMixin:
+    @classmethod
+    def resolve_connection(cls, connection, args, iterable, max_limit=None):
+        connection = super().resolve_connection(connection, args, iterable, max_limit)
+        # At the moment we don't hard fail if the connection class is not right
+        # if issubclass(connection.__class__, CountConnection):
+        if isinstance(iterable, QuerySet):
+            connection.count = iterable.count()
+        else:
+            connection.count = len(iterable)
+        return connection
 
 
 ## THis is a hardcoded rewrite of the class to allow for proper interface support
