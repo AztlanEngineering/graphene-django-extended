@@ -10,7 +10,6 @@ from collections import OrderedDict
 from functools import partial
 
 import graphene
-import ipdb
 from django.db.models.query import QuerySet
 from graphene.relay.connection import Connection, ConnectionOptions
 from graphene.types.argument import to_arguments
